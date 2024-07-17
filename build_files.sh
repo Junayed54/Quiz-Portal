@@ -7,6 +7,6 @@ echo "BUILD START"
 
 # Use the default python command within the virtual environment
 pip3 install -r requirements.txt
-python manage.py collectstatic --noinput
+python3 manage.py collectstatic --noinput
 
 echo "BUILD END"
