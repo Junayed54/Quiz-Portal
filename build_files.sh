@@ -5,10 +5,8 @@ set -e
 
 echo "BUILD START"
 
-# Install requirements
-python3.9 -m pip3 install -r requirements.txt
-
-# Collect static files
-python3.9 manage.py collectstatic --noinput
+# Use the default python command within the virtual environment
+python -m pip3 install -r requirements.txt
+python manage.py collectstatic --noinput
 
 echo "BUILD END"
