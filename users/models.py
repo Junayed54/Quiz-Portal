@@ -1,6 +1,6 @@
 from django.db import models
 # from django.contrib.auth.base_user import BaseUserManager
-from django.contrib.auth.models import AbstractUser, BaseUserManager
+from django.contrib.auth.models import AbstractUser, BaseUserManager, Group, Permission
 
 class UserManager(BaseUserManager):
     def create_user(self, phone_number, password = None, **extra_fields):
@@ -30,6 +30,24 @@ class UserManager(BaseUserManager):
 class CustomUser(AbstractUser):
     username = models.CharField(max_length=100, blank=True, null=True)
     phone_number = models.CharField(max_length=20, unique=True)
+    
+    
+    groups = models.ManyToManyField(
+        Group,
+        related_name='customuser_groups',
+        blank=True,
+        help_text=('The groups this user belongs to. A user will get all permissions '
+                   'granted to each of their groups.'),
+        verbose_name=('groups'),
+    )
+    user_permissions = models.ManyToManyField(
+        Permission,
+        related_name='customuser_permissions',
+        blank=True,
+        help_text=('Specific permissions for this user.'),
+        verbose_name=('user permissions'),
+    )
+    
     
     USERNAME_FIELD = 'phone_number'
     REQUIRED_FIELDS = ['username']
