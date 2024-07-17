@@ -19,6 +19,9 @@ DEBUG = False
 # ALLOWED_HOSTS = []
 
 # Custom user model
+AUTH_USER_MODEL = 'users.CustomUser'
+
+
 ALLOWED_HOSTS = ['.vercel.app','now.sh','127.0.0.1','localhost']
 
 # Application definition
@@ -101,7 +104,7 @@ WSGI_APPLICATION = 'quiz_portal.wsgi.application'
 # }
 
 
-DATABASE_URL = 'postgresql://postgres:OOCzizneOUgWVUmLyBRyRmKiuuvlixhJ@viaduct.proxy.rlwy.net:49744/railway'
+DATABASE_URL = 'mysql://root:KByLYWUXWHbrSTYTJLGRKvkqdHtsKcHb@monorail.proxy.rlwy.net:12594/railway'
 
 DATABASES = {
     'default': dj_database_url.config(
