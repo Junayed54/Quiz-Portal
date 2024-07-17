@@ -5,12 +5,13 @@ set -e
 
 echo "BUILD START"
 
-
-
 # Install requirements
-pip install -r requirements.txt
+python3.9 -m pip install -r requirements.txt
 
-# Collect static files
-python3.9 manage.py collectstatic --noinput
+# Create the staticfiles_build directory if it doesn't exist
+mkdir -p staticfiles_build
+
+# Collect static files to the staticfiles_build directory
+python3.9 manage.py collectstatic --noinput --clear --directory staticfiles_build
 
 echo "BUILD END"
