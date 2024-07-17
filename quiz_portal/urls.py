@@ -18,3 +18,5 @@ urlpatterns = [
     path('auth/', include('users.urls')),  # Custom user-related URLs
     path('quiz/', include('quiz.urls')),  # Quiz-related URLs
 ]
+
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
