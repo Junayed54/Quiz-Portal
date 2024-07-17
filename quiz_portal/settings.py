@@ -104,7 +104,7 @@ WSGI_APPLICATION = 'quiz_portal.wsgi.application'
 # }
 
 
-DATABASE_URL = 'mysql://root:KByLYWUXWHbrSTYTJLGRKvkqdHtsKcHb@monorail.proxy.rlwy.net:12594/railway'
+DATABASE_URL = 'mysql://root:oTVMNdXODxeuZvdjPysoJpUuuxSoZsZd@roundhouse.proxy.rlwy.net:50585/railway'
 
 DATABASES = {
     'default': dj_database_url.config(
