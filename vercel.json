@@ -21,7 +21,8 @@
       },
       {
         "src": "/(.*)",
-        "dest": "manage.py"
+        "dest": "quiz_portal/wsgi.py"
       }
     ]
   }
+  
