@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Quiz Portal{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="bg-blue-600 p-4 text-white">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold">Quiz Portal</h1>
+            <nav>
+                <ul class="flex space-x-4">
+                    <li><a href="/" class="hover:underline">Home</a></li>
+                    <li><a href="/quiz/exam_list/" class="hover:underline">Exams</a></li>
+                    <li id="auth-link"></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main class="container mx-auto mt-10">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const accessToken = localStorage.getItem('access_token');
+        const authLink = document.getElementById('auth-link');
+
+        if (accessToken) {
+            authLink.innerHTML = `
+                <button id="logout-btn" class="hover:underline">Logout</button>
+            `;
+            document.getElementById('logout-btn').addEventListener('click', () => {
+                localStorage.removeItem('access_token');
+                localStorage.removeItem('refresh_token');
+                window.location.reload();
+            });
+        } else {
+            authLink.innerHTML = `
+                <a href="/login/" class="hover:underline mr-2">Login</a>
+                <a href="/signup/" class="hover:underline">Signup</a>
+            `;
+        }
+    });
+    </script>
+</body>
+</html>

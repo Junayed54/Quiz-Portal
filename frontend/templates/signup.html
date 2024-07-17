@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+    <div class="w-full max-w-xs">
+        <form id="signupForm" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <h2 class="text-center text-2xl font-bold mb-6">Sign Up</h2>
+            <!-- Username -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="username">Username</label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Username">
+                <p id="username-error" class="text-red-500 text-xs italic mt-2"></p>
+            </div>
+            <!-- Phone Number -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="phone_number">Phone Number</label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="phone_number" type="tel" placeholder="Phone Number">
+                <p id="phone-number-error" class="text-red-500 text-xs italic mt-2"></p>
+            </div>
+            <!-- Password -->
+            <div class="mb-6">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="password">Password</label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="Password">
+                <p id="password-error" class="text-red-500 text-xs italic mt-2"></p>
+            </div>
+            <!-- Submit Button -->
+            <div class="flex items-center justify-between">
+                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onclick="register()">Sign Up</button>
+            </div>
+            <!-- Error Message Display -->
+            <p id="error-message" class="text-red-500 text-xs italic mt-4"></p>
+            <!-- Social Sign Up -->
+            
+        </form>
+    </div>
+    <!-- JavaScript for Form Submission -->
+    <script>
+        async function register() {
+            const username = document.getElementById('username').value;
+            const phone_number = document.getElementById('phone_number').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('error-message');
+            const usernameError = document.getElementById('username-error');
+            const phoneNumberError = document.getElementById('phone-number-error');
+            const passwordError = document.getElementById('password-error');
+
+            // Clear previous error messages
+            errorMessage.textContent = '';
+            usernameError.textContent = '';
+            phoneNumberError.textContent = '';
+            passwordError.textContent = '';
+
+            try {
+                const response = await fetch('/auth/signup/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, phone_number, password })
+                });
+
+                if (response.ok) {
+                    // Redirect to login page upon successful registration
+                    window.location.href = '/login/';
+                } else {
+                    const data = await response.json();
+                    if (data.username) {
+                        usernameError.textContent = data.username.join(', ');
+                    }
+                    if (data.phone_number) {
+                        phoneNumberError.textContent = data.phone_number.join(', ');
+                    }
+                    if (data.password) {
+                        passwordError.textContent = data.password.join(', ');
+                    }
+                    if (data.non_field_errors) {
+                        errorMessage.textContent = data.non_field_errors.join(', ');
+                    }
+                    throw new Error(data.detail || 'Registration failed');
+                }
+            } catch (error) {
+                if (!errorMessage.textContent) {
+                    errorMessage.textContent = error.message;
+                }
+            }
+        }
+    </script>
+</body>
+</html>
