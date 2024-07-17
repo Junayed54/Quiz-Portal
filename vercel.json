@@ -21,7 +21,7 @@
       },
       {
         "src": "/(.*)",
-        "dest": "event_registration/wsgi.py"
+        "dest": "quiz_portal/wsgi.py"
       }
     ]
   }

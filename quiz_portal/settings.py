@@ -16,7 +16,7 @@ SECRET_KEY = 'your_secret_key_here'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = []
 
 # Custom user model
 ALLOWED_HOSTS = ['.vercel.app','now.sh','127.0.0.1','localhost']
