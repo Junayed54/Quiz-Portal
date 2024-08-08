@@ -96,21 +96,21 @@ TEMPLATES = [
 WSGI_APPLICATION = 'quiz_portal.wsgi.application'
 
 # Database configuration (SQLite for simplicity)
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
-
-# DATABASE_URL = 'postgresql://postgres:ZdmqgHnUEPmcAIDHQOCwYRxjERQxfrnT@viaduct.proxy.rlwy.net:40668/railway'
-
 # DATABASES = {
-#     'default': dj_database_url.config(
-#         default=config('DATABASE_URL', default=DATABASE_URL)
-#     )
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
 # }
+
+
+DATABASE_URL = 'postgresql://postgres:JcfkbcGFQCcpnvUPdoMsRccFJHujpQpi@roundhouse.proxy.rlwy.net:44568/railway'
+
+DATABASES = {
+    'default': dj_database_url.config(
+        default=config('DATABASE_URL', default=DATABASE_URL)
+    )
+}
 
 
 # Password validation
