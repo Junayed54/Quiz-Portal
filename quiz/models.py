@@ -6,11 +6,15 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+
+
+
 class Exam(models.Model):
     exam_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=255)
     total_questions = models.IntegerField()
     user = models.ForeignKey(User, related_name='exam', on_delete=models.CASCADE, null=True, blank=True)
+    created_by = models.ForeignKey(User, related_name='created_by', on_delete=models.CASCADE, null=True, blank=True)
     total_marks = models.IntegerField()
     correct_answers = models.IntegerField(default=0)
     wrong_answers = models.IntegerField(default=0)
@@ -31,9 +35,9 @@ class Exam(models.Model):
     
     
     def get_user_attempt_count(self, user):
-        # Count how many times a user has taken this exam
-        print("this is ", user, ExamAttempt.objects.filter(user=user, exam=self).count())
         return ExamAttempt.objects.filter(user=user, exam=self).count()
+
+
 
 class ExamAttempt(models.Model):
     exam = models.ForeignKey(Exam, related_name='attempts', on_delete=models.CASCADE)
@@ -46,10 +50,19 @@ class ExamAttempt(models.Model):
     def __str__(self):
         return f"{self.user.username} - {self.exam.title} - {self.total_correct_answers} correct answers"
 
+class Category(models.Model):
+    name = models.CharField(max_length=255, unique=True)
+    description = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+
 class Question(models.Model):
     exam = models.ForeignKey(Exam, related_name='questions', on_delete=models.CASCADE)
     text = models.CharField(max_length=255)
     marks = models.IntegerField()
+    category = models.ForeignKey(Category, related_name='questions', on_delete=models.CASCADE, null=True, blank=True)
 
     def get_options(self):
         return self.options.all()

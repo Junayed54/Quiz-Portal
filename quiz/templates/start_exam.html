@@ -10,7 +10,7 @@ Start Exam
     <div id="exam-info" class="mb-4">
         <!-- Exam details will be populated here by JavaScript -->
     </div>
-    <div id="question-container" class="hidden mb-4">
+    <div id="question-container" class="mb-4">
         <p id="question-text" class="text-lg font-medium mb-2"></p>
         <form id="answer-form">
             <div id="options-container" class="mb-4">
@@ -63,6 +63,7 @@ Start Exam
             .then(response => response.json())
             .then(data => {
                 questions = data;
+                
                 if (questions.length > 0) {
                     showQuestion(0);
                 } else {
@@ -142,6 +143,7 @@ Start Exam
             document.getElementById('question-text').textContent = question.text;
             const optionsContainer = document.getElementById('options-container');
             optionsContainer.innerHTML = '';
+            console.log();
             question.options.forEach(option => {
                 const optionElement = document.createElement('div');
                 optionElement.classList.add('mb-2');

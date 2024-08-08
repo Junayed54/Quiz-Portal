@@ -22,8 +22,16 @@
 
 
 from django.contrib import admin
-from .models import Exam, Question, QuestionOption, ExamAttempt, Leaderboard
+from .models import Exam, Question, QuestionOption, ExamAttempt, Leaderboard, Category
 import nested_admin
+
+
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('name', 'description')
+
+
 
 class QuestionOptionInline(nested_admin.NestedTabularInline):
     model = QuestionOption
@@ -49,8 +57,8 @@ class ExamAdmin(nested_admin.NestedModelAdmin):
 
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):
-    list_display = ('text', 'exam', 'marks')
-    list_filter = ('exam',)
+    list_display = ('text', 'exam', 'marks', 'category')
+    list_filter = ('category',)
     search_fields = ('text', 'exam__title')
     inlines = [QuestionOptionInline]
 

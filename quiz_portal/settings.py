@@ -14,7 +14,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'wkf6c#&j%k%-jae(!p_*dq&9x*j_cvsa_l4ump#5f-^p1b(-8b'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 # ALLOWED_HOSTS = []
 
@@ -96,21 +96,21 @@ TEMPLATES = [
 WSGI_APPLICATION = 'quiz_portal.wsgi.application'
 
 # Database configuration (SQLite for simplicity)
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
-
-DATABASE_URL = 'postgresql://postgres:ZdmqgHnUEPmcAIDHQOCwYRxjERQxfrnT@viaduct.proxy.rlwy.net:40668/railway'
-
 DATABASES = {
-    'default': dj_database_url.config(
-        default=config('DATABASE_URL', default=DATABASE_URL)
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
+
+
+# DATABASE_URL = 'postgresql://postgres:ZdmqgHnUEPmcAIDHQOCwYRxjERQxfrnT@viaduct.proxy.rlwy.net:40668/railway'
+
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         default=config('DATABASE_URL', default=DATABASE_URL)
+#     )
+# }
 
 
 # Password validation

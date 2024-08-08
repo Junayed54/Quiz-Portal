@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Quiz Portal{% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .dropdown-menu {
+            display: none;
+        }
+        .dropdown:hover .dropdown-menu, .dropdown-menu:hover {
+            display: block;
+        }
+    </style>
 </head>
 <body>
     <header class="bg-blue-600 p-4 text-white">
@@ -14,6 +22,13 @@
                 <ul class="flex space-x-4">
                     <li><a href="/" class="hover:underline">Home</a></li>
                     <li><a href="/quiz/exam_list/" class="hover:underline">Exams</a></li>
+                    <li id="user-button" class="relative dropdown hidden">
+                        <button class="hover:underline">User</button>
+                        <ul class="absolute left-0 w-48 bg-white text-gray-800 rounded-lg shadow-lg dropdown-menu">
+                            <li><a href="/quiz/create_exam/" class="block px-4 py-2 hover:bg-gray-200">Create Exam</a></li>
+                            <li><a href="/quiz/user_exams/" class="block px-4 py-2 hover:bg-gray-200">See All User Exam List</a></li>
+                        </ul>
+                    </li>
                     <li id="auth-link"></li>
                 </ul>
             </nav>
@@ -28,6 +43,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         const accessToken = localStorage.getItem('access_token');
         const authLink = document.getElementById('auth-link');
+        const userButton = document.getElementById('user-button');
 
         if (accessToken) {
             authLink.innerHTML = `
@@ -38,6 +54,21 @@
                 localStorage.removeItem('refresh_token');
                 window.location.reload();
             });
+
+            fetch('/auth/user-role/', {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken,
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.role === 'admin' || data.role === 'teacher') {
+                    userButton.classList.remove('hidden');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+
         } else {
             authLink.innerHTML = `
                 <a href="/login/" class="hover:underline mr-2">Login</a>
