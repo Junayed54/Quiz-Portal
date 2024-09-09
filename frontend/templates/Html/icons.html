@@ -1,0 +1,333 @@
+{% comment %} @SPK@include("partials/mainhead.html") {% endcomment %}
+{% include "./partials/mainhead.html"%}
+</head>
+
+<body>
+
+    {% comment %} @SPK@include("partials/switcher.html") {% endcomment %}
+    {% include "./partials/switcher.html" %}
+    <div class="page">
+        {% comment %} @SPK@include("partials/header.html") {% endcomment %}
+        {% include "./partials/header.html"%}
+        {% comment %} @SPK@include("partials/sidebar.html") {% endcomment %}
+        {% include "./partials/sidebar.html" %}
+        <!-- Start::app-content -->
+        <div class="main-content app-content">
+
+            
+            <div class="container mt-5">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="card shadow">
+                            <div class="card-body p-5">
+                                <h1 class="card-title h3 mb-4">Create Exam</h1>
+                                <form id="create-exam-form">
+                                    <!-- Exam creation fields -->
+                                    <div class="mb-3">
+                                        <label for="title" class="form-label">Title</label>
+                                        <input type="text" id="title" name="title" class="form-control" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="total_questions" class="form-label">Total Questions</label>
+                                        <input type="number" id="total_questions" name="total_questions" class="form-control" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="questions_to_generate" class="form-label">Questions to Generate</label>
+                                        <input type="number" id="questions_to_generate" name="questions_to_generate" class="form-control" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="total_marks" class="form-label">Total Marks</label>
+                                        <input type="number" id="total_marks" name="total_marks" class="form-control" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="last_date" class="form-label">Last Date</label>
+                                        <input type="date" id="last_date" name="last_date" class="form-control">
+                                    </div>
+            
+                                    <!-- Difficulty percentage fields -->
+                                    <div class="border rounded border-4 p-3 mb-3">
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label for="difficulty1_percentage" class="form-label">Difficulty 1 (%)</label>
+                                                <input type="number" id="difficulty1_percentage" name="difficulty1_percentage" class="form-control" min="0" max="100" value="0">
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="difficulty2_percentage" class="form-label">Difficulty 2 (%)</label>
+                                                <input type="number" id="difficulty2_percentage" name="difficulty2_percentage" class="form-control" min="0" max="100" value="0">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label for="difficulty3_percentage" class="form-label">Difficulty 3 (%)</label>
+                                                <input type="number" id="difficulty3_percentage" name="difficulty3_percentage" class="form-control" min="0" max="100" value="0">
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="difficulty4_percentage" class="form-label">Difficulty 4 (%)</label>
+                                                <input type="number" id="difficulty4_percentage" name="difficulty4_percentage" class="form-control" min="0" max="100" value="0">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label for="difficulty5_percentage" class="form-label">Difficulty 5 (%)</label>
+                                                <input type="number" id="difficulty5_percentage" name="difficulty5_percentage" class="form-control" min="0" max="100" value="0">
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="difficulty6_percentage" class="form-label">Difficulty 6 (%)</label>
+                                                <input type="number" id="difficulty6_percentage" name="difficulty6_percentage" class="form-control" min="0" max="100" value="0">
+                                                <small id="difficulty6_hint" class="form-text text-muted">This field is calculated automatically based on other difficulties.</small>
+                                            </div>
+                                        </div>
+                                    </div>                                    
+                                    
+                                    <button type="button" id="create-exam-btn" class="btn btn-primary">Create Exam</button>
+                                </form>
+            
+                                <div id="exel-form" class="my-4 d-none">
+                                    <h2 class="h4 mb-4 text-danger">Upload Question with Option File</h2>
+                                    <input type="file" id="upload-excel" accept=".xlsx,.xls" class="form-control mb-3">
+                                    <button type="button" id="upload-excel-btn" class="btn btn-primary">Upload Excel</button>
+                                </div>
+            
+                                <div id="questions-section" class="d-none">
+                                    <h2 class="h4 mb-4 mt-5">Add Questions</h2>
+                                    <div id="questions-container">
+                                        <!-- Initial question form, cloned dynamically -->
+                                        <div class="question-item mb-3 d-none">
+                                            <form class="create-question-form">
+                                                <div class="mb-3">
+                                                    <label for="text" class="form-label">Question Text</label>
+                                                    <input type="text" name="text" class="form-control" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="marks" class="form-label">Marks</label>
+                                                    <input type="number" name="marks" class="form-control" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="category" class="form-label">Category</label>
+                                                    <select name="category" class="form-select" required>
+                                                        <option value="">Select Category</option>
+                                                        {% for category in categories %}
+                                                            <option value="{{ category.id }}">{{ category.name }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <div class="options-container">
+                                                    <h3 class="h6 mb-2">Options</h3>
+                                                    <div class="option-item mb-3">
+                                                        <label for="option_text" class="form-label">Option Text</label>
+                                                        <input type="text" name="option_text" class="form-control" required>
+                                                        <div class="form-check mt-2">
+                                                            <input class="form-check-input" type="checkbox" name="is_correct">
+                                                            <label class="form-check-label" for="is_correct">Is Correct</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <button type="button" class="add-option-btn btn btn-success mt-2">Add Option</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <button id="add-question-btn" class="btn btn-success w-100 mt-3">Add Question</button>
+                                    <button id="submit-all-btn" class="btn btn-primary w-100 mt-3">Submit All</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+            
+            
+
+            <!-- MY custom macq-->
+
+
+
+            {% comment %} <div class="container-fluid">
+
+                @SPK@include("partials/page-header.html", {"title": "Icons", "subtitle": 'Icons'})
+
+                <!-- Start::row-1 -->
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="card custom-card">
+                            <div class="card-header">
+                                <div class="card-title">Bootstrap Icons</div>
+                            </div>
+                            <div class="card-body">
+                                <p class="mb-1">Simply beautiful open source icons. For more info <a href="https://icons.getbootstrap.com/" target="_blank" class="text-primary">click here</a>.</p>
+                                <p class="mb-4"><code>&lt;i class="bi bi-ICON_NAME"&gt;&lt;/i&gt;</code></p>
+                                <ul class="icons-list list-unstyled">
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="bi bi-arrow-left-circle"><i class="bi bi-arrow-left-circle"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="bi bi-arrows-move"><i class="bi bi-arrows-move"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="bi bi-bag"><i class="bi bi-bag"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="bi bi-bar-chart-line"><i class="bi bi-bar-chart-line"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="bi bi-basket"><i class="bi bi-basket"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="bi bi-bell"><i class="bi bi-bell"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="bi bi-book"><i class="bi bi-book"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="bi bi-box"><i class="bi bi-box"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="bi bi-briefcase"><i class="bi bi-briefcase"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="bi bi-brightness-high"><i class="bi bi-brightness-high"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="bi bi-calendar"><i class="bi bi-calendar"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="bi bi-paint-bucket"><i class="bi bi-paint-bucket"></i></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-12">
+                        <div class="card custom-card">
+                            <div class="card-header">
+                                <div class="card-title">Remix Icons</div>
+                            </div>
+                            <div class="card-body">
+                                <p class="mb-1">Simply beautiful open source icons. For more info <a href="https://remixicon.com/" target="_blank" class="text-primary">click here</a>.</p>
+                                <p class="mb-4"><code>&lt;i class="ri-ICON_NAME"&gt;&lt;/i&gt;</code></p>
+                                <ul class="icons-list list-unstyled">
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="ri-home-line"><i class="ri-home-line"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="ri-mail-line"><i class="ri-mail-line"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="ri-briefcase-line"><i class="ri-briefcase-line"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="ri-window-line"><i class="ri-window-line"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="ri-chat-2-line"><i class="ri-chat-2-line"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="ri-chat-settings-line"><i class="ri-chat-settings-line"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="ri-edit-line"><i class="ri-edit-line"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="ri-layout-line"><i class="ri-layout-line"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="ri-code-s-slash-line"><i class="ri-code-s-slash-line"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="ri-airplay-line"><i class="ri-airplay-line"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="ri-file-line"><i class="ri-file-line"></i></li>
+                                </ul>     
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-12">
+                        <div class="card custom-card">
+                            <div class="card-header">
+                                <div class="card-title">Feather Icons</div>
+                            </div>
+                            <div class="card-body">
+                                <p class="mb-1">Simply beautiful open source icons. For more info <a href="https://feathericons.com/" target="_blank" class="text-primary">click here</a>.</p>
+                                <p class="mb-4"><code>&lt;i class="fe fe-ICON_NAME"&gt;&lt;/i&gt;</code></p>
+                                <ul class="icons-list list-unstyled">
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="fe fe-activity"><i class="fe fe-activity"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="fe fe-airplay"><i class="fe fe-airplay"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="fe fe-alert-circle"><i class="fe fe-alert-circle"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="fe fe-alert-triangle"><i class="fe fe-alert-triangle"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="fe fe-bar-chart-2"><i class="fe fe-bar-chart-2"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="fe fe-bell"><i class="fe fe-bell"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="fe fe-camera"><i class="fe fe-camera"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="fe fe-copy"><i class="fe fe-copy"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="fe fe-eye"><i class="fe fe-eye"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="fe fe-file"><i class="fe fe-file"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="fe fe-layout"><i class="fe fe-layout"></i></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-12">
+                        <div class="card custom-card">
+                            <div class="card-header">
+                                <div class="card-title">Tabler Icons</div>
+                            </div>
+                            <div class="card-body">
+                                <p class="mb-1">Simply beautiful open source icons. For more info <a href="https://tabler-icons.io/" target="_blank" class="text-primary">click here</a>.</p>
+                                <p class="mb-4"><code>&lt;i class="ti ti-ICON_NAME"&gt;&lt;/i&gt;</code></p>
+                                <ul class="icons-list list-unstyled">
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="ti ti-brand-tabler"><i class="ti ti-brand-tabler"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="ti ti-activity-heartbeat"><i class="ti ti-activity-heartbeat"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="ti ti-alert-octagon"><i class="ti ti-alert-octagon"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="ti ti-album"><i class="ti ti-album"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="ti ti-align-right"><i class="ti ti-align-right"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="ti ti-antenna-bars-5"><i class="ti ti-antenna-bars-5"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="ti ti-armchair"><i class="ti ti-armchair"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="ti ti-arrow-big-right"><i class="ti ti-arrow-big-right"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="ti ti-arrows-shuffle-2"><i class="ti ti-arrows-shuffle-2"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="ti ti-backspace"><i class="ti ti-backspace"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="ti ti-bell"><i class="ti ti-bell"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="ti ti-color-picker"><i class="ti ti-color-picker"></i></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-12">
+                        <div class="card custom-card">
+                            <div class="card-header">
+                                <div class="card-title">Line Awesome Icons</div>
+                            </div>
+                            <div class="card-body">
+                                <p class="mb-1">Simply beautiful open source icons. For more info <a href="https://icons8.com/line-awesome" target="_blank" class="text-primary">click here</a>.</p>
+                                <p class="mb-4"><code>&lt;i class="las la-ICON_NAME"&gt;&lt;/i&gt;</code></p>
+                                <ul class="icons-list list-unstyled">
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="las la-bell"><i class="las la-bell"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="las la-exclamation-circle"><i class="las la-exclamation-circle"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="las la-exclamation-triangle"><i class="las la-exclamation-triangle"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="las la-arrow-alt-circle-down"><i class="las la-arrow-alt-circle-down"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="las la-arrow-alt-circle-up"><i class="las la-arrow-alt-circle-up"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="las la-arrow-alt-circle-left"><i class="las la-arrow-alt-circle-left"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="las la-arrow-alt-circle-right"><i class="las la-arrow-alt-circle-right"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="las la-history"><i class="las la-history"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="las la-headphones"><i class="las la-headphones"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="las la-tv"><i class="las la-tv"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="las la-car-side"><i class="las la-car-side"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="las la-envelope"><i class="las la-envelope"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="las la-edit"><i class="las la-edit"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="las la-map"><i class="las la-map"></i></li>
+                                </ul>    
+                            </div>
+                        </div>
+                    </div>            
+                    <div class="col-xl-12">
+                        <div class="card custom-card">
+                            <div class="card-header">
+                                <div class="card-title">Boxicons</div>
+                            </div>
+                            <div class="card-body">
+                                <p class="mb-1">Simply beautiful open source icons. For more info <a href="https://boxicons.com/" target="_blank" class="text-primary">click here</a>.</p>
+                                <p class="mb-4"><code>&lt;i class="bx bx-ICON_NAME"&gt;&lt;/i&gt;</code></p>
+                                <ul class="icons-list list-unstyled">
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="bx bx-home"><i class="bx bx-home"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="bx bx-home-alt"><i class="bx bx-home-alt"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="bx bx-box"><i class="bx bx-box"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="bx bx-medal"><i class="bx bx-medal"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="bx bx-file"><i class="bx bx-file"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="bx bx-palette"><i class="bx bx-palette"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="bx bx-receipt"><i class="bx bx-receipt"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="bx bx-table"><i class="bx bx-table"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="bx bx-bar-chart-alt"><i class="bx bx-bar-chart-alt"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="bx bx-layer"><i class="bx bx-layer"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="bx bx-map-alt"><i class="bx bx-map-alt"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="bx bx-gift"><i class="bx bx-gift"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="bx bx-file-blank"><i class="bx bx-file-blank"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="bx bx-lock-alt"><i class="bx bx-lock-alt"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="bx bx-error"><i class="bx bx-error"></i></li>
+                                    <li class="icons-list-item" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="bx bx-error-circle"><i class="bx bx-error-circle"></i></li>
+                                </ul>    
+                            </div>
+                        </div>
+                    </div>            
+                </div>
+                <!--End::row-1 -->
+
+            </div> {% endcomment %}
+        </div>
+        <!-- End::app-content -->
+
+        {% comment %} @SPK@include("partials/headersearch_modal.html") {% endcomment %}
+        {% include "./partials/headersearch_modal.html"%}
+        {% comment %} @SPK@include("partials/footer.html") {% endcomment %}
+        {% include "./partials/footer.html" %}
+    </div>
+
+    {% comment %} @SPK@include("partials/commonjs.html") {% endcomment %}
+    {% include "./partials/commonjs.html"%}
+
+    {% comment %} @SPK@include("partials/custom_switcherjs.html") {% endcomment %}
+    {% include "./partials/custom_switcherjs.html"%}
+    <!-- Custom JS -->
+    <script src="../../static/assets/js/custom.js"></script>
+
+    <!-- My exam js -->
+     <script src = "../../static/Js/create_exam.js"></script>
+
+</body>
+
+</html>

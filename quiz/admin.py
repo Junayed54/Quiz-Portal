@@ -22,7 +22,7 @@
 
 
 from django.contrib import admin
-from .models import Exam, Question, QuestionOption, ExamAttempt, Leaderboard, Category
+from .models import Exam, Question, QuestionOption, ExamAttempt, Leaderboard, Category, ExamDifficulty
 import nested_admin
 
 
@@ -44,7 +44,7 @@ class QuestionInline(nested_admin.NestedTabularInline):
 
 @admin.register(Exam)
 class ExamAdmin(nested_admin.NestedModelAdmin):
-    list_display = ('exam_id', 'title', 'user', 'total_questions', 'total_marks', 'correct_answers', 'wrong_answers', 'passed', 'last_date', 'created_at', 'updated_at')
+    list_display = ('exam_id', 'title', 'user', 'total_questions', 'questions_to_generate', 'total_marks', 'correct_answers', 'wrong_answers', 'passed', 'last_date', 'created_at', 'updated_at')
     list_filter = ('passed',)
     search_fields = ('title', 'user__username', 'exam_id')
     inlines = [QuestionInline]
@@ -54,13 +54,28 @@ class ExamAdmin(nested_admin.NestedModelAdmin):
         if not change:  # Only generate questions when creating a new exam
             for i in range(obj.total_questions):
                 Question.objects.create(exam=obj, text=f'Question {i+1}', marks=1)
+                
+                
+                
+@admin.register(ExamDifficulty)
+class ExamDifficultyAdmin(admin.ModelAdmin):
+    list_display = ('exam', 'difficulty1_percentage', 'difficulty2_percentage', 'difficulty3_percentage', 'difficulty4_percentage', 'difficulty5_percentage', 'difficulty6_percentage')
+    search_fields = ('exam__title',)
+
 
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):
-    list_display = ('text', 'exam', 'marks', 'category')
-    list_filter = ('category',)
-    search_fields = ('text', 'exam__title')
-    inlines = [QuestionOptionInline]
+    list_display = ('text', 'exam', 'marks', 'category', 'difficulty_level')
+    list_filter = ('difficulty_level', 'exam', 'category')
+    search_fields = ('text', 'exam__title', 'category__name')
+    ordering = ('-difficulty_level',)  # Optional: Order questions by difficulty level
+    
+    # Optional: Add custom form fields or fieldsets if needed
+    fieldsets = (
+        (None, {
+            'fields': ('text', 'exam', 'marks', 'category', 'difficulty_level')
+        }),
+    )
 
 @admin.register(QuestionOption)
 class QuestionOptionAdmin(admin.ModelAdmin):

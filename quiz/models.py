@@ -3,9 +3,10 @@ from django.db import models
 from django.conf import settings
 from django.utils import timezone
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
+
 
 User = get_user_model()
-
 
 
 
@@ -13,6 +14,7 @@ class Exam(models.Model):
     exam_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=255)
     total_questions = models.IntegerField()
+    questions_to_generate = models.IntegerField(default=0)
     user = models.ForeignKey(User, related_name='exam', on_delete=models.CASCADE, null=True, blank=True)
     created_by = models.ForeignKey(User, related_name='created_by', on_delete=models.CASCADE, null=True, blank=True)
     total_marks = models.IntegerField()
@@ -34,8 +36,46 @@ class Exam(models.Model):
         ordering = ['-created_at']
     
     
+    # def save(self, *args, **kwargs):
+    #     # Set default value for `questions_to_generate` based on `total_questions`
+    #     if self.questions_to_generate == 0:
+    #         self.questions_to_generate = self.total_questions
+    #     super().save(*args, **kwargs)
+    
     def get_user_attempt_count(self, user):
         return ExamAttempt.objects.filter(user=user, exam=self).count()
+
+
+
+class ExamDifficulty(models.Model):
+    exam = models.OneToOneField(Exam, on_delete=models.CASCADE, related_name='difficulty')
+    difficulty1_percentage = models.IntegerField(default=0)  # Difficulty 1 (0-100%)
+    difficulty2_percentage = models.IntegerField(default=0)  # Difficulty 2 (0-100%)
+    difficulty3_percentage = models.IntegerField(default=0)  # Difficulty 3 (0-100%)
+    difficulty4_percentage = models.IntegerField(default=0)  # Difficulty 4 (0-100%)
+    difficulty5_percentage = models.IntegerField(default=0)  # Difficulty 5 (0-100%)
+    difficulty6_percentage = models.IntegerField(default=0)  # Difficulty 6 (0-100%)
+
+    def clean(self):
+        """
+        Ensure the sum of the difficulty percentages is 100%.
+        """
+        total_percentage = (self.difficulty1_percentage + self.difficulty2_percentage +
+                            self.difficulty3_percentage + self.difficulty4_percentage +
+                            self.difficulty5_percentage + self.difficulty6_percentage)
+        if total_percentage != 100:
+            raise ValidationError("The total percentage of difficulty questions must equal 100.")
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"Difficulty for {self.exam.title}"
+
+    class Meta:
+        verbose_name = 'Exam Difficulty'
+        verbose_name_plural = 'Exam Difficulties'
 
 
 
@@ -59,16 +99,27 @@ class Category(models.Model):
 
 
 class Question(models.Model):
+    DIFFICULTY_LEVEL_CHOICES = [
+        (1, 'Very Easy'),
+        (2, 'Easy'),
+        (3, 'Medium'),
+        (4, 'Hard'),
+        (5, 'Very Hard'),
+        (6, 'Expert'),
+    ]
+    
     exam = models.ForeignKey(Exam, related_name='questions', on_delete=models.CASCADE)
-    text = models.CharField(max_length=255)
+    text = models.CharField(max_length=255, unique=True)
     marks = models.IntegerField()
     category = models.ForeignKey(Category, related_name='questions', on_delete=models.CASCADE, null=True, blank=True)
+    difficulty_level = models.IntegerField(choices=DIFFICULTY_LEVEL_CHOICES, default=1)
 
     def get_options(self):
         return self.options.all()
 
     def __str__(self):
         return self.text
+
 
 class QuestionOption(models.Model):
     question = models.ForeignKey(Question, related_name='options', on_delete=models.CASCADE)

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Exam, Question, QuestionOption, Leaderboard, ExamAttempt, Category
+from .models import Exam, ExamDifficulty, Question, QuestionOption, Leaderboard, ExamAttempt, Category
 
 class QuestionOptionSerializer(serializers.ModelSerializer):
     class Meta:
@@ -49,7 +49,7 @@ class ExamSerializer(serializers.ModelSerializer):
     class Meta:
         model = Exam
         fields = [
-            'exam_id', 'title', 'total_questions', 'total_marks', 
+            'exam_id', 'title', 'total_questions', 'questions_to_generate', 'total_marks', 
             'correct_answers', 'wrong_answers', 'passed', 'created_at', 
             'updated_at', 'last_date', 'questions', 'user_attempt_count', 'created_by'
         ]
@@ -57,6 +57,37 @@ class ExamSerializer(serializers.ModelSerializer):
     def get_user_attempt_count(self, obj):
         user = self.context['request'].user
         return obj.get_user_attempt_count(user)
+
+
+class ExamDifficultySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ExamDifficulty
+        fields = [
+            'exam',
+            'difficulty1_percentage',
+            'difficulty2_percentage',
+            'difficulty3_percentage',
+            'difficulty4_percentage',
+            'difficulty5_percentage',
+            'difficulty6_percentage',
+        ]
+    
+    def validate(self, data):
+        """
+        Ensure that the sum of the difficulty percentages is equal to 100%.
+        """
+        total_percentage = (data['difficulty1_percentage'] +
+                            data['difficulty2_percentage'] +
+                            data['difficulty3_percentage'] +
+                            data['difficulty4_percentage'] +
+                            data['difficulty5_percentage'] +
+                            data['difficulty6_percentage'])
+        if total_percentage != 100:
+            raise serializers.ValidationError("The total percentage of difficulty questions must equal 100%.")
+        return data
+
+
+
     
 class LeaderboardSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.username')
