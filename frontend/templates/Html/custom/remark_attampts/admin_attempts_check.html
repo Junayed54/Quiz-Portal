@@ -1,0 +1,65 @@
+{% comment %} @SPK@include("partials/mainhead.html") {% endcomment %}
+{% include "../../partials/mainhead.html"%}
+</head>
+
+<body>
+
+    {% comment %} @SPK@include("partials/switcher.html") {% endcomment %}
+    {% include "../../partials/switcher.html" %}
+    <div class="page">
+        {% comment %} @SPK@include("partials/header.html") {% endcomment %}
+        {% include "../../partials/header.html"%}
+        {% comment %} @SPK@include("partials/sidebar.html") {% endcomment %}
+        {% include "../../partials/sidebar.html" %}
+        <!-- Start::app-content -->
+        <div class="main-content app-content">
+
+            
+            <div class="container mt-5">
+                <h2 class="mb-4">Exams and Attempts</h2>
+                <!-- Alert Box for Errors -->
+                <div id="alert-box" class="alert alert-danger d-none" role="alert">
+                    Error fetching data. Please try again later.
+                </div>
+        
+                <!-- Table to display all exams and attempt counts -->
+                <table class="table table-striped table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Exam Title</th>
+                            <th>Number of Attempts</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="exams-table-body">
+                        <!-- JavaScript will dynamically populate the rows here -->
+                    </tbody>
+                </table>
+            </div>
+            
+
+
+
+        </div>
+        <!-- End::app-content -->
+
+        {% comment %} @SPK@include("partials/headersearch_modal.html") {% endcomment %}
+        {% include "../../partials/headersearch_modal.html"%}
+        {% comment %} @SPK@include("partials/footer.html") {% endcomment %}
+        {% include "../../partials/footer.html" %}
+    </div>
+
+    {% comment %} @SPK@include("partials/commonjs.html") {% endcomment %}
+    {% include "../../partials/commonjs.html"%}
+
+    {% comment %} @SPK@include("partials/custom_switcherjs.html") {% endcomment %}
+    {% include "../../partials/custom_switcherjs.html"%}
+    <!-- Custom JS -->
+    <script src="../../../../static/assets/js/custom.js"></script>
+
+    <!-- My exam js -->
+     <script src = "../../../../static/Js/remark_attampts/admin_attempts_check.js"></script>
+
+</body>
+
+</html>

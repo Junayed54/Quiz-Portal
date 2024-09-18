@@ -44,11 +44,13 @@ Exam Details
                 })
                 .then(response => response.json())
                 .then(data => {
+                    
                     document.getElementById('exam-title').textContent = data.title;
                     document.getElementById('total-questions').textContent = data.total_questions;
                     document.getElementById('total-marks').textContent = data.total_marks;
                     document.getElementById('score').textContent = data.correct_answers;
                     document.getElementById('attempt-count').textContent = data.user_attempt_count;
+                    console.log(data);
                     startButton.classList.remove('hidden'); // Show start button for students
                 })
                 .catch(error => {

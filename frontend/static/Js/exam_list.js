@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
 
-    fetch('/quiz/exams/', {
+    fetch('/quiz/exams/exam_list', {
         headers: {
             'Authorization': `Bearer ${accessToken}`
         }

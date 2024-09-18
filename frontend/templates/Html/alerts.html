@@ -1,26 +1,32 @@
-@SPK@include("partials/mainhead.html")
-{% include %}
+{% comment %} @SPK@include("partials/mainhead.html") {% endcomment %}
+
+{% include "./partial/mainhead.html" %}
 
 <!-- Prism CSS -->
-<link rel="stylesheet" href="../assets/libs/prismjs/themes/prism-coy.min.css">
+<link rel="stylesheet" href="../../static/assets/libs/prismjs/themes/prism-coy.min.css">
 
 
 </head>
 
 <body>
 
-    @SPK@include("partials/switcher.html")
+    {% comment %} @SPK@include("partials/switcher.html") {% endcomment %}
+    {% include "./partials/switcher.html" %}
 
     <div class="page">
 
-            @SPK@include("partials/header.html")
-            @SPK@include("partials/sidebar.html")
+            {% comment %} @SPK@include("partials/header.html") {% endcomment %}
+            {% include "../partials/header.html" %}
+            {% comment %} @SPK@include("partials/sidebar.html") {% endcomment %}
+            {% include "../partials/sidebar.html"%}
 
             <!--APP-CONTENT START-->
             <div class="main-content app-content">
                 <div class="container-fluid">
 
-                    @SPK@include("partials/page-header.html", {"title": "Alerts", "subtitle": 'Ui Elements'})
+                    {% comment %} @SPK@include("partials/page-header.html", {"title": "Alerts", "subtitle": 'Ui Elements'}) {% endcomment %}
+                    {% include "./partials/page-header.html", {"title", "Alerts", "subtitle": "Ui Elements"}%}
+
 
                     <!--ROW-START-->
                     <div class="row">
@@ -900,49 +906,49 @@ below.
                                 <div class="card-body">
                                     <div class="alert alert-img alert-primary alert-dismissible fase show rounded-pill flex-wrap" role="alert">
                                         <div class="avatar avatar-sm me-3 avatar-rounded">
-                                            <img src="../assets/images/faces/3.jpg" alt="img">
+                                            <img src="../../static/assets/images/faces/3.jpg" alt="img">
                                         </div>
                                         <div>A simple primary alert with image—check it out!</div>
                                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"><i class="bi bi-x"></i></button>
                                     </div>
                                     <div class="alert alert-img alert-secondary alert-dismissible fase show rounded-pill flex-wrap" role="alert">
                                         <div class="avatar avatar-sm me-3 avatar-rounded">
-                                            <img src="../assets/images/faces/5.jpg" alt="img">
+                                            <img src="../../../static/images/faces/5.jpg" alt="img">
                                         </div>
                                         <div>A simple secondary alert with image—check it out!</div>
                                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"><i class="bi bi-x"></i></button>
                                     </div>
                                     <div class="alert alert-img alert-warning alert-dismissible fase show rounded-pill flex-wrap" role="alert">
                                         <div class="avatar avatar-sm me-3 avatar-rounded">
-                                            <img src="../assets/images/faces/8.jpg" alt="img">
+                                            <img src="../../../static/images/faces/8.jpg" alt="img">
                                         </div>
                                         <div>A simple warning alert with image—check it out!</div>
                                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"><i class="bi bi-x"></i></button>
                                     </div>
                                     <div class="alert alert-img alert-danger alert-dismissible fase show rounded-pill flex-wrap" role="alert">
                                         <div class="avatar avatar-sm me-3 avatar-rounded">
-                                            <img src="../assets/images/faces/11.jpg" alt="img">
+                                            <img src="../../../static/images/faces/11.jpg" alt="img">
                                         </div>
                                         <div>A simple danger alert with image—check it out!</div>
                                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"><i class="bi bi-x"></i></button>
                                     </div>
                                     <div class="alert alert-img alert-info alert-dismissible fase show rounded-pill flex-wrap" role="alert">
                                         <div class="avatar avatar-sm me-3 avatar-rounded">
-                                            <img src="../assets/images/faces/13.jpg" alt="img">
+                                            <img src="../../../static/images/faces/13.jpg" alt="img">
                                         </div>
                                         <div>A simple info alert with image—check it out!</div>
                                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"><i class="bi bi-x"></i></button>
                                     </div>
                                     <div class="alert alert-img alert-light alert-dismissible fase show rounded-pill flex-wrap" role="alert">
                                         <div class="avatar avatar-sm me-3 avatar-rounded">
-                                            <img src="../assets/images/faces/10.jpg" alt="img">
+                                            <img src="../../../static/images/faces/10.jpg" alt="img">
                                         </div>
                                         <div>A simple light alert with image—check it out!</div>
                                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"><i class="bi bi-x"></i></button>
                                     </div>
                                     <div class="alert alert-img alert-dark alert-dismissible fase show rounded-pill flex-wrap" role="alert">
                                         <div class="avatar avatar-sm me-3 avatar-rounded">
-                                            <img src="../assets/images/faces/15.jpg" alt="img">
+                                            <img src="../../../static/images/faces/15.jpg" alt="img">
                                         </div>
                                         <div>A simple dark alert with image—check it out!</div>
                                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"><i class="bi bi-x text-muted"></i></button>
@@ -952,7 +958,7 @@ below.
 <!-- Prism Code -->
 <pre class="language-html"><code class="language-html">&lt;div class="alert alert-img alert-primary alert-dismissible fase show rounded-pill flex-wrap" role="alert"&gt;
     &lt;div class="avatar avatar-sm me-3 avatar-rounded"&gt;
-        &lt;img src="../assets/images/faces/3.jpg" alt="img"&gt;
+        &lt;img src="../../../static/images/faces/3.jpg" alt="img"&gt;
     &lt;/div&gt;
     &lt;div&gt;A simple primary alert with image—check it out!&lt;/div&gt;
     &lt;button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"&gt;&lt;i class="bi bi-x"&gt;&lt;/i&gt;&lt;/button&gt;
@@ -960,7 +966,7 @@ below.
 
 &lt;div class="alert alert-img alert-secondary alert-dismissible fase show rounded-pill flex-wrap" role="alert"&gt;
     &lt;div class="avatar avatar-sm me-3 avatar-rounded"&gt;
-        &lt;img src="../assets/images/faces/5.jpg" alt="img"&gt;
+        &lt;img src="../../../static/images/faces/5.jpg" alt="img"&gt;
     &lt;/div&gt;
     &lt;div&gt;A simple secondary alert with image—check it out!&lt;/div&gt;
     &lt;button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"&gt;&lt;i class="bi bi-x"&gt;&lt;/i&gt;&lt;/button&gt;
@@ -968,7 +974,7 @@ below.
 
 &lt;div class="alert alert-img alert-warning alert-dismissible fase show rounded-pill flex-wrap" role="alert"&gt;
     &lt;div class="avatar avatar-sm me-3 avatar-rounded"&gt;
-        &lt;img src="../assets/images/faces/8.jpg" alt="img"&gt;
+        &lt;img src="../../../static/images/faces/8.jpg" alt="img"&gt;
     &lt;/div&gt;
     &lt;div&gt;A simple warning alert with image—check it out!&lt;/div&gt;
     &lt;button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"&gt;&lt;i class="bi bi-x"&gt;&lt;/i&gt;&lt;/button&gt;
@@ -976,7 +982,7 @@ below.
 
 &lt;div class="alert alert-img alert-danger alert-dismissible fase show rounded-pill flex-wrap" role="alert"&gt;
     &lt;div class="avatar avatar-sm me-3 avatar-rounded"&gt;
-        &lt;img src="../assets/images/faces/11.jpg" alt="img"&gt;
+        &lt;img src="../../../static/images/faces/11.jpg" alt="img"&gt;
     &lt;/div&gt;
     &lt;div&gt;A simple danger alert with image—check it out!&lt;/div&gt;
     &lt;button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"&gt;&lt;i class="bi bi-x"&gt;&lt;/i&gt;&lt;/button&gt;
@@ -984,7 +990,7 @@ below.
 
 &lt;div class="alert alert-img alert-info alert-dismissible fase show rounded-pill flex-wrap" role="alert"&gt;
     &lt;div class="avatar avatar-sm me-3 avatar-rounded"&gt;
-        &lt;img src="../assets/images/faces/13.jpg" alt="img"&gt;
+        &lt;img src="../../../static/images/faces/13.jpg" alt="img"&gt;
     &lt;/div&gt;
     &lt;div&gt;A simple info alert with image—check it out!&lt;/div&gt;
     &lt;button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"&gt;&lt;i class="bi bi-x"&gt;&lt;/i&gt;&lt;/button&gt;
@@ -992,7 +998,7 @@ below.
 
 &lt;div class="alert alert-img alert-light alert-dismissible fase show rounded-pill flex-wrap" role="alert"&gt;
     &lt;div class="avatar avatar-sm me-3 avatar-rounded"&gt;
-        &lt;img src="../assets/images/faces/10.jpg" alt="img"&gt;
+        &lt;img src="../../../static/images/faces/10.jpg" alt="img"&gt;
     &lt;/div&gt;
     &lt;div&gt;A simple light alert with image—check it out!&lt;/div&gt;
     &lt;button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"&gt;&lt;i class="bi bi-x"&gt;&lt;/i&gt;&lt;/button&gt;
@@ -1000,7 +1006,7 @@ below.
 
 &lt;div class="alert alert-img alert-dark alert-dismissible fase show rounded-pill flex-wrap" role="alert"&gt;
     &lt;div class="avatar avatar-sm me-3 avatar-rounded"&gt;
-        &lt;img src="../assets/images/faces/15.jpg" alt="img"&gt;
+        &lt;img src="../../../static/images/faces/15.jpg" alt="img"&gt;
     &lt;/div&gt;
     &lt;div&gt;A simple dark alert with image—check it out!&lt;/div&gt;
     &lt;button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"&gt;&lt;i class="bi bi-x text-muted"&gt;&lt;/i&gt;&lt;/button&gt;
@@ -1022,42 +1028,42 @@ below.
                                 <div class="card-body">
                                     <div class="alert alert-img alert-primary alert-dismissible fase show flex-wrap" role="alert">
                                         <div class="avatar avatar-xs me-3">
-                                            <img src="../assets/images/faces/3.jpg" alt="img">
+                                            <img src="../../../static/images/faces/3.jpg" alt="img">
                                         </div>
                                         <div>A simple primary alert with image—check it out!</div>
                                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"><i class="bi bi-x"></i></button>
                                     </div>
                                     <div class="alert alert-img alert-secondary alert-dismissible fase show flex-wrap" role="alert">
                                         <div class="avatar avatar-sm me-3">
-                                            <img src="../assets/images/faces/5.jpg" alt="img">
+                                            <img src="../../../static/images/faces/5.jpg" alt="img">
                                         </div>
                                         <div>A simple secondary alert with image—check it out!</div>
                                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"><i class="bi bi-x"></i></button>
                                     </div>
                                     <div class="alert alert-img alert-warning alert-dismissible fase show flex-wrap" role="alert">
                                         <div class="avatar me-3">
-                                            <img src="../assets/images/faces/8.jpg" alt="img">
+                                            <img src="../../../static/images/faces/8.jpg" alt="img">
                                         </div>
                                         <div>A simple warning alert with image—check it out!</div>
                                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"><i class="bi bi-x"></i></button>
                                     </div>
                                     <div class="alert alert-img alert-danger alert-dismissible fase show flex-wrap" role="alert">
                                         <div class="avatar avatar-md me-3">
-                                            <img src="../assets/images/faces/11.jpg" alt="img">
+                                            <img src="../../../static/images/faces/11.jpg" alt="img">
                                         </div>
                                         <div>A simple danger alert with image—check it out!</div>
                                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"><i class="bi bi-x"></i></button>
                                     </div>
                                     <div class="alert alert-img alert-info alert-dismissible fase show flex-wrap" role="alert">
                                         <div class="avatar avatar-lg me-3">
-                                            <img src="../assets/images/faces/13.jpg" alt="img">
+                                            <img src="../../../static/images/faces/13.jpg" alt="img">
                                         </div>
                                         <div>A simple info alert with image—check it out!</div>
                                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"><i class="bi bi-x"></i></button>
                                     </div>
                                     <div class="alert alert-img alert-dark alert-dismissible fase show flex-wrap" role="alert">
                                         <div class="avatar avatar-xl me-3">
-                                            <img src="../assets/images/faces/14.jpg" alt="img">
+                                            <img src="../../../static/images/faces/14.jpg" alt="img">
                                         </div>
                                         <div>A simple info alert with image—check it out!</div>
                                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"><i class="bi bi-x text-muted"></i></button>
@@ -1067,7 +1073,7 @@ below.
 <!-- Prism Code -->
 <pre class="language-html"><code class="language-html">&lt;div class="alert alert-img alert-primary alert-dismissible fase show flex-wrap" role="alert"&gt;
     &lt;div class="avatar avatar-xs me-3"&gt;
-        &lt;img src="../assets/images/faces/3.jpg" alt="img"&gt;
+        &lt;img src="../../../static/images/faces/3.jpg" alt="img"&gt;
     &lt;/div&gt;
     &lt;div&gt;A simple primary alert with image—check it out!&lt;/div&gt;
     &lt;button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"&gt;&lt;i class="bi bi-x"&gt;&lt;/i&gt;&lt;/button&gt;
@@ -1075,7 +1081,7 @@ below.
 
 &lt;div class="alert alert-img alert-secondary alert-dismissible fase show flex-wrap" role="alert"&gt;
     &lt;div class="avatar avatar-sm me-3"&gt;
-        &lt;img src="../assets/images/faces/5.jpg" alt="img"&gt;
+        &lt;img src="../../../static/images/faces/5.jpg" alt="img"&gt;
     &lt;/div&gt;
     &lt;div&gt;A simple secondary alert with image—check it out!&lt;/div&gt;
     &lt;button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"&gt;&lt;i class="bi bi-x"&gt;&lt;/i&gt;&lt;/button&gt;
@@ -1083,7 +1089,7 @@ below.
 
 &lt;div class="alert alert-img alert-warning alert-dismissible fase show flex-wrap" role="alert"&gt;
     &lt;div class="avatar me-3"&gt;
-        &lt;img src="../assets/images/faces/8.jpg" alt="img"&gt;
+        &lt;img src="../../../static/images/faces/8.jpg" alt="img"&gt;
     &lt;/div&gt;
     &lt;div&gt;A simple warning alert with image—check it out!&lt;/div&gt;
     &lt;button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"&gt;&lt;i class="bi bi-x"&gt;&lt;/i&gt;&lt;/button&gt;
@@ -1091,7 +1097,7 @@ below.
 
 &lt;div class="alert alert-img alert-danger alert-dismissible fase show flex-wrap" role="alert"&gt;
     &lt;div class="avatar avatar-md me-3"&gt;
-        &lt;img src="../assets/images/faces/11.jpg" alt="img"&gt;
+        &lt;img src="../../../static/images/faces/11.jpg" alt="img"&gt;
     &lt;/div&gt;
     &lt;div&gt;A simple danger alert with image—check it out!&lt;/div&gt;
     &lt;button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"&gt;&lt;i class="bi bi-x"&gt;&lt;/i&gt;&lt;/button&gt;
@@ -1099,7 +1105,7 @@ below.
 
 &lt;div class="alert alert-img alert-info alert-dismissible fase show flex-wrap" role="alert"&gt;
     &lt;div class="avatar avatar-lg me-3"&gt;
-        &lt;img src="../assets/images/faces/13.jpg" alt="img"&gt;
+        &lt;img src="../../../static/images/faces/13.jpg" alt="img"&gt;
     &lt;/div&gt;
     &lt;div&gt;A simple info alert with image—check it out!&lt;/div&gt;
     &lt;button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"&gt;&lt;i class="bi bi-x"&gt;&lt;/i&gt;&lt;/button&gt;
@@ -1107,7 +1113,7 @@ below.
 
 &lt;div class="alert alert-img alert-dark alert-dismissible fase show flex-wrap" role="alert"&gt;
     &lt;div class="avatar avatar-xl me-3"&gt;
-        &lt;img src="../assets/images/faces/14.jpg" alt="img"&gt;
+        &lt;img src="../../../static/images/faces/14.jpg" alt="img"&gt;
     &lt;/div&gt;
     &lt;div&gt;A simple info alert with image—check it out!&lt;/div&gt;
     &lt;button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"&gt;&lt;i class="bi bi-x text-muted"&gt;&lt;/i&gt;&lt;/button&gt;
@@ -1466,24 +1472,28 @@ below.
             </div>
             <!--APP-CONTENT CLOSE-->
 
-        @SPK@include("partials/headersearch_modal.html")
-        @SPK@include("partials/footer.html")
+        {% comment %} @SPK@include("partials/headersearch_modal.html") {% endcomment %}
+        {% include "../partials/headersearch_modal.html"%}
+        {% comment %} @SPK@include("partials/footer.html") {% endcomment %}
+        {% include "../partials/footer.html"%}
 
     </div>
 
-    @SPK@include("partials/commonjs.html")
+    {% comment %} @SPK@include("partials/commonjs.html") {% endcomment %}
+    {% include "./partials/commonjs.html"%}
 
-    @SPK@include("partials/custom_switcherjs.html")
+    {% comment %} @SPK@include("partials/custom_switcherjs.html") {% endcomment %}
+    {% include "./partials/custom_switcherjs.html"%}
 
     <!-- Prism JS -->
-    <script src="../assets/libs/prismjs/prism.js"></script>
-    <script src="../assets/js/prism-custom.js"></script>
+    <script src="../../../static/libs/prismjs/prism.js"></script>
+    <script src="../../../static/js/prism-custom.js"></script>
 
     <!-- Alerts JS -->
-    <script src="../assets/js/alerts.js"></script>
+    <script src="../../../static/js/alerts.js"></script>
 
     <!-- Custom JS -->
-    <script src="../assets/js/custom.js"></script>
+    <script src="../../../static/js/custom.js"></script>
 
 </body>
 

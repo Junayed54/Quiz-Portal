@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(response => response.json())
             .then(data => {
+                console.log(data);
                 document.getElementById('exam-title').textContent = data.title;
                 document.getElementById('total-questions').textContent = data.total_questions;
                 document.getElementById('total-marks').textContent = data.total_marks;

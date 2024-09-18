@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const uploadExcelBtn = document.getElementById('upload-excel-btn');
     const fileInput = document.getElementById('upload-excel');
     const exelForm = document.getElementById('exel-form');
-
+    const generateQuestionsBtn = document.getElementById('generate-questions-btn');
     createExamBtn.addEventListener('click', async function() {
         const form = document.getElementById('create-exam-form');
         const formData = new FormData(form);
@@ -112,6 +112,58 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('An error occurred while uploading the Excel file.');
         }
     });
+
+
+    generateQuestionsBtn.addEventListener('click', async function() {
+        const exam_Id = document.getElementById('create-exam-form').dataset.examId;
+        const totalQuestions = document.getElementById('questions_to_generate').value;
+    
+        // Collect difficulty percentage inputs from the form
+        const difficultyData = {
+            difficulty1: document.getElementById('difficulty1_percentage').value || 0,
+            difficulty2: document.getElementById('difficulty2_percentage').value || 0,
+            difficulty3: document.getElementById('difficulty3_percentage').value || 0,
+            difficulty4: document.getElementById('difficulty4_percentage').value || 0,
+            difficulty5: document.getElementById('difficulty5_percentage').value || 0,
+            difficulty6: document.getElementById('difficulty6_percentage').value || 0,
+        };
+    
+        if (!exam_Id || !totalQuestions) {
+            alert('Please provide the exam ID and the number of questions to generate.');
+            return;
+        }
+    
+        try {
+            const response = await fetch(`/quiz/exams/${exam_Id}/generate_exam/`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    
+                    total_questions: totalQuestions,
+                    difficulty: difficultyData  // Send difficulty data with the request
+                }),
+            });
+    
+            const result = await response.json();
+            if (response.ok) {
+                alert('Exam generated successfully!');
+                console.log(result.questions);  // List of question IDs
+            } else {
+                console.error('Error generating exam:', result);
+                alert('Failed to generate exam.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred while generating the exam.');
+        }
+    });
+    
+
+
+
 
     // Adding a new question form dynamically
     document.getElementById('add-question-btn').addEventListener('click', function() {

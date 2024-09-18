@@ -1,0 +1,62 @@
+{% comment %} @SPK@include("partials/mainhead.html") {% endcomment %}
+{% include "../partials/mainhead.html"%}
+</head>
+
+<body>
+
+    {% comment %} @SPK@include("partials/switcher.html") {% endcomment %}
+    {% include "../partials/switcher.html" %}
+    <div class="page">
+        {% comment %} @SPK@include("partials/header.html") {% endcomment %}
+        {% include "../partials/header.html"%}
+        {% comment %} @SPK@include("partials/sidebar.html") {% endcomment %}
+        {% include "../partials/sidebar.html" %}
+        <!-- Start::app-content -->
+        <div class="main-content app-content">
+
+
+            <div class="container mt-5">
+                <h1 class="text-center display-4 mb-4">Check This Exams</h1>
+                
+                <!-- Loading Spinner (optional) -->
+                <div id="loading" class="text-center">
+                    <div class="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            
+                <div id="exam-info" class="d-none">
+                    <p><strong>Created by:</strong> <span id="created-by"></span></p>
+                    <p><strong>Exam Title:</strong> <span id="exam-title"></span></p>
+                    <p><strong>Total Questions:</strong> <span id="total-questions"></span></p>
+                    <p><strong>Generated Questions:</strong> <span id="generated-questions"></span></p>
+                </div>
+            
+                <div id="questions-container" class="d-none">
+                    <div id="questions-list" class="row"></div>
+                </div>
+            </div>
+        </div>
+        <!-- End::app-content -->
+
+        {% comment %} @SPK@include("partials/headersearch_modal.html") {% endcomment %}
+        {% include "../partials/headersearch_modal.html"%}
+        {% comment %} @SPK@include("partials/footer.html") {% endcomment %}
+        {% include "../partials/footer.html" %}
+    </div>
+
+    {% comment %} @SPK@include("partials/commonjs.html") {% endcomment %}
+    {% include "../partials/commonjs.html"%}
+
+    {% comment %} @SPK@include("partials/custom_switcherjs.html") {% endcomment %}
+    {% include "../partials/custom_switcherjs.html"%}
+    <!-- Custom JS -->
+    <script src="../../../static/assets/js/custom.js"></script>
+
+    <!-- My exam js -->
+     <script src = "../../../static/Js/exam_check.js"></script>
+
+
+</body>
+
+</html>

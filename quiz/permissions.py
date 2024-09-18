@@ -15,6 +15,9 @@ class IsAdminOrReadOnly(BasePermission):
         # Write permissions are allowed to the admin or teacher users.
         return request.user and (request.user.is_staff or request.user.role == 'teacher')
 
+class IsAdmin(BasePermission):
+    def has_permission(self, request, view):
+        return request.user and (request.user.is_staff)
 
 class IsStudent(BasePermission):
     def has_permission(self, request, view):

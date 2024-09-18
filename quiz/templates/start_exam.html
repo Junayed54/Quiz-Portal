@@ -45,6 +45,7 @@ Start Exam
             })
             .then(response => response.json())
             .then(data => {
+                
                 document.getElementById('exam-info').innerHTML = `<h3 class="text-xl font-bold">${data.title}</h3><p>Total Questions: ${data.total_questions}</p>`;
                 fetchQuestions();
             })

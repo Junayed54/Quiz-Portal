@@ -28,6 +28,10 @@ class Exam(models.Model):
     def calculate_pass_fail(self, passing_marks):
         self.passed = self.correct_answers >= passing_marks
         self.save()
+        
+    def status_id(self):
+        print(self.exam__id)
+        return self.exam__id
 
     def __str__(self):
         return f"{self.title}"
@@ -46,6 +50,39 @@ class Exam(models.Model):
         return ExamAttempt.objects.filter(user=user, exam=self).count()
 
 
+class Status(models.Model):
+    STATUS_CHOICES = [
+        ('draft', 'Draft'),
+        ('submitted_to_admin', 'Submitted to Admin'),
+        ('under_review', 'Under Review'),
+        ('reviewed', 'Reviewed'),
+        ('returned_to_creator', 'Returned to Creator'),
+        ('published', 'Published'),
+    ]
+    
+    exam = models.OneToOneField(Exam, on_delete=models.CASCADE, related_name = 'exam')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name="user")
+    # description = models.TextField(null=True, blank=True)
+    status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='draft')
+    reviewed_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name = "reviewed_by")  # Admin who reviewed the exam
+
+    def __str__(self):
+        return f"{self.exam.title} - {self.status}"
+
+    def get_exam_details(self):
+        """
+        This method returns a dictionary containing the exam details needed for the frontend.
+        """
+        return {
+            'title': self.exam.title,
+            'created_by': self.exam.created_by.username,  # Assuming 'created_by' is a ForeignKey to User in Exam model
+            'total_questions': self.exam.total_questions,
+            'total_marks': self.exam.total_marks,
+            'last_date': self.exam.last_date,
+            'status': self.status,
+            'reviewed_by': self.reviewed_by.username if self.reviewed_by else None,
+            'user': self.user.username if self.user else None,
+        }
 
 class ExamDifficulty(models.Model):
     exam = models.OneToOneField(Exam, on_delete=models.CASCADE, related_name='difficulty')
@@ -108,18 +145,39 @@ class Question(models.Model):
         (6, 'Expert'),
     ]
     
-    exam = models.ForeignKey(Exam, related_name='questions', on_delete=models.CASCADE)
+    STATUS_CHOICES = [
+        ('submitted', 'Submitted'),
+        ('reviewed', 'Reviewed'),
+        ('approved', 'Approved'),
+        ('published', 'Published'),
+        ('rejected', 'Rejected'),
+    ]
+    
+    exam = models.ForeignKey(Exam, related_name='questions', on_delete=models.CASCADE, null=True, blank=True)
     text = models.CharField(max_length=255, unique=True)
     marks = models.IntegerField()
     category = models.ForeignKey(Category, related_name='questions', on_delete=models.CASCADE, null=True, blank=True)
     difficulty_level = models.IntegerField(choices=DIFFICULTY_LEVEL_CHOICES, default=1)
-
+    status = models.CharField(max_length=30, choices=STATUS_CHOICES, default='submitted', null=True)
+    remarks = models.TextField(blank=True, null=True)
+    time_limit = models.IntegerField(help_text="Time limit for this question in seconds", default=60)
+    created_by = models.ForeignKey(User, related_name="question_created_by", null=True, blank=True, on_delete=models.CASCADE)
+    reviewed_by = models.ForeignKey(User, related_name="question_reviewed_by", null=True, blank=True, on_delete=models.CASCADE)
+    created_at = models.DateField(auto_now_add=True, null=True)
+    updated_at = models.DateField(auto_now=True, null=True)
     def get_options(self):
         return self.options.all()
 
     def __str__(self):
         return self.text
 
+    def category_name(self):
+        return self.category.name
+    
+    
+    
+
+    
 
 class QuestionOption(models.Model):
     question = models.ForeignKey(Question, related_name='options', on_delete=models.CASCADE)

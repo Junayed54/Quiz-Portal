@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     const accessToken = localStorage.getItem('access_token');
+    // console.log(accessToken);
     if (!accessToken) {
         window.location.href = '/login/';
         return;
@@ -30,6 +31,9 @@ document.addEventListener('DOMContentLoaded', function() {
                             <div class="p-3 bg-primary rounded mt-2">
                                 <a href="/quiz/exam_detail/${exam.exam_id}/" class="text-white text-decoration-none">View Exam</a>
                             </div>
+
+                            
+
                             <div class="p-2 bg-danger rounded mt-2">
                                 <button class=" btn delete-btn text-white text-decoration-none" data-exam-id="${exam.exam_id}">Delete Exam</button>
                             </div>
@@ -65,6 +69,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         });
+
+        
     })
     .catch(error => console.error('Error:', error));
 });

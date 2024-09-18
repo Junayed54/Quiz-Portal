@@ -3,7 +3,11 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentQuestionIndex = 0;
     let questions = [];
     let answers = [];
-
+    const accessToken = localStorage.getItem('access_token')
+    if (!accessToken) {
+        window.location.href = '/login/';
+        return;
+    }
     function fetchExamDetails() {
         fetch(`/quiz/exams/${examId}/start/`, {
             method: 'GET',
